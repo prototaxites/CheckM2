@@ -193,8 +193,9 @@ def main():
         tempDBpath = None
         if args.database_path is not None:
             logging.info(f'Custom database path provided for predict run. Checking database at {args.database_path}...')
-            if VersionControl().checksum_version_validate_DIAMOND(args.database_path) or args.dbg_skip_checksum:
-                tempDBpath = args.database_path
+            if not args.dbg_skip_checksum:
+                VersionControl().checksum_version_validate_DIAMOND(args.database_path)
+            tempDBpath = args.database_path
 
         logging.info("Running quality prediction workflow with {} threads.".format(args.threads))
         if len(args.input) == 1 and os.path.isdir(args.input[0]):
